@@ -98,6 +98,11 @@ body {
   transform: translateY(4px);
 }
 
+.operator:focus:not(.equal) {
+    background-color: dodgerblue;
+    transform: translateY(4px);
+}
+
 .primary {
     width: 100px;
     height: 100px;
