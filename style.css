@@ -98,7 +98,7 @@ body {
   transform: translateY(4px);
 }
 
-.operator:focus:not(.equal) {
+.operator:focus {
     background-color: dodgerblue;
     transform: translateY(4px);
 }
