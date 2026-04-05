@@ -112,7 +112,7 @@ body {
     width: 100px;
 }
 
-.number {
+.digit {
     background-color: blanchedalmond;
 }
 
@@ -121,7 +121,6 @@ body {
 }
 
 .equal {
-    width: 215px;
     background-color: crimson;
     color: white;
 }

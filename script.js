@@ -12,7 +12,7 @@ document.querySelector(".button-container").addEventListener('click', (event) =>
   const button = event.target.closest('.button');
   if (!button) return;
 
-  if (button.classList.contains('number')) {
+  if (button.classList.contains('digit')) {
     addNumber(button.textContent);
   } else if (button.classList.contains('operator')) {
     addOperator(button.textContent);
@@ -25,11 +25,15 @@ document.querySelector(".button-container").addEventListener('click', (event) =>
 });
 
 function addNumber(number) {
-  console.log(`Add number. Number pressed: ${number}, first number: ${firstNumber}, second number: ${secondNumber}, current operator ${currentOperator}`);
   const operatorExists = hasOperator();
   let currentNumber = operatorExists ? secondNumber : firstNumber; 
   
-  if (currentNumber.length > MAX_DIGITS) return;
+  if (isDecimal(currentNumber) && number == '.') return;
+  
+  const lengthToCheck = isDecimal(currentNumber) ? MAX_DIGITS + 1 : MAX_DIGITS;
+
+  
+  if (currentNumber.length > lengthToCheck) return;
 
   if (currentNumber === '0' || currentNumber === '') {
     currentNumber = number;
@@ -43,14 +47,12 @@ function addNumber(number) {
 }
 
 function addOperator(operator) {
-  console.log(`Add operator. Operator pressed: ${operator}, first number: ${firstNumber}, second number: ${secondNumber}, current operator ${currentOperator}`);
   if (firstNumber != '' && secondNumber != '') return;
   
   currentOperator = operator;
 }
 
 function doOperation() {
-  console.log(`Operate. First number: ${firstNumber}, second number: ${secondNumber}, current operator ${currentOperator}`);
   if (!hasOperator()) return;
   
   switch (currentOperator) {
@@ -77,7 +79,13 @@ function doOperation() {
 }
 
 function refreshDisplay(numberToDisplay) {
-  displayElement.textContent = `${numberToDisplay}`;
+  if (numberToDisplay.length > 20) {
+    displayElement.textContent = `Number too long`;
+    resetOperation();
+    return;
+  }
+  let trimmedNumber = isDecimal(numberToDisplay) ? numberToDisplay.toString().substring(0, MAX_DIGITS + 1) : numberToDisplay;
+  displayElement.textContent = `${trimmedNumber}`;
 }
 
 function resetOperation(clearDisplay = false) {
@@ -90,4 +98,9 @@ function resetOperation(clearDisplay = false) {
 
 function hasOperator() {
   return !!currentOperator;
+}
+
+function isDecimal(number) {
+  if (number.toString().includes('.')) return true;
+  return false;
 }
