@@ -110,6 +110,7 @@ body {
 
 .extra {
     width: 100px;
+    background-color: dimgrey;
 }
 
 .digit {
@@ -123,8 +124,4 @@ body {
 .equal {
     background-color: crimson;
     color: white;
-}
-
-.reset {
-    background-color: dimgrey;
 }

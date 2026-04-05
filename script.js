@@ -7,6 +7,7 @@ const displayElement = document.querySelector(".display");
 let firstNumber = '0';
 let secondNumber = '';
 let currentOperator;
+let lastNumberEdited = 'firstNumber';
 
 document.querySelector(".button-container").addEventListener('click', (event) => {
   const button = event.target.closest('.button');
@@ -20,7 +21,9 @@ document.querySelector(".button-container").addEventListener('click', (event) =>
     doOperation();
   } else if (button.classList.contains('reset')) {
     resetOperation(true);
-  }
+  } else if (button.classList.contains('backspace')) {
+    removeLastCharacter(lastNumberEdited);
+  } 
   
 });
 
@@ -31,7 +34,6 @@ function addNumber(number) {
   if (isDecimal(currentNumber) && number == '.') return;
   
   const lengthToCheck = isDecimal(currentNumber) ? MAX_DIGITS + 1 : MAX_DIGITS;
-
   
   if (currentNumber.length > lengthToCheck) return;
 
@@ -41,7 +43,13 @@ function addNumber(number) {
     currentNumber += number;
   }
 
-  operatorExists ? (secondNumber = currentNumber) : (firstNumber = currentNumber);
+  if (operatorExists) {
+    secondNumber = currentNumber;
+    lastNumberEdited = 'secondNumber';
+  } else { 
+    firstNumber = currentNumber;
+    lastNumberEdited = 'firstNumber';
+  }
 
   refreshDisplay(currentNumber);
 }
@@ -50,6 +58,7 @@ function addOperator(operator) {
   if (firstNumber != '' && secondNumber != '') return;
   
   currentOperator = operator;
+  lastNumberEdited = 'secondNumber';
 }
 
 function doOperation() {
@@ -66,7 +75,7 @@ function doOperation() {
       firstNumber = Number(firstNumber) * Number(secondNumber);
       break;
     case '÷':
-      if ((secondNumber == '0' && firstNumber != '0')) {
+      if (Number(firstNumber) / Number(secondNumber) == 'Infinity' || Number(firstNumber) / Number(secondNumber) == 'NaN') {
         firstNumber = 'Tu madre';
       } else {
         firstNumber = Number(firstNumber) / Number(secondNumber);
@@ -94,6 +103,24 @@ function resetOperation(clearDisplay = false) {
   currentOperator = null;
 
   if (clearDisplay) refreshDisplay(firstNumber);
+}
+
+function removeLastCharacter(number) {
+  let numberToCheck = number == 'firstNumber' ? firstNumber : secondNumber;
+  if (numberToCheck.length <= 0) return;
+  
+  numberToCheck = numberToCheck.toString().substring(0, numberToCheck.toString().length - 1);
+  console.log('numero muerto', numberToCheck)
+  switch (number) {
+    case 'firstNumber':
+      firstNumber = numberToCheck;
+      break;
+    case 'secondNumber':
+      secondNumber = numberToCheck;
+      break;
+  }
+
+  refreshDisplay(numberToCheck);
 }
 
 function hasOperator() {
