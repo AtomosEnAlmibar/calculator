@@ -27,6 +27,35 @@ document.querySelector(".button-container").addEventListener('click', (event) =>
   
 });
 
+document.addEventListener('keydown', (event) => {
+  switch (event.key) {
+    case '0':
+    case '1':
+    case '2':
+    case '3':
+    case '4':
+    case '5':
+    case '6':
+    case '7':
+    case '8':
+    case '9':
+      addNumber(event.key);
+      break;
+    case '+':
+    case '÷':
+    case '−':
+    case '÷':
+      addOperator(event.key);
+      break;
+    case '=':
+      doOperation();
+      break;
+    case 'Backspace':
+      removeLastCharacter(lastNumberEdited);
+      break;
+  }
+});
+
 function addNumber(number) {
   const operatorExists = hasOperator();
   let currentNumber = operatorExists ? secondNumber : firstNumber; 
