@@ -125,3 +125,8 @@ body {
     background-color: crimson;
     color: white;
 }
+
+.pressed {
+    background-color: dodgerblue;
+    transform: translateY(4px);
+}

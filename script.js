@@ -42,10 +42,12 @@ document.addEventListener('keydown', (event) => {
       addNumber(event.key);
       break;
     case '+':
-    case '÷':
-    case '−':
-    case '÷':
+    case '*':
+    case '-':
+    case '/':
+      document.querySelectorAll(".operator").forEach(element => element.classList.remove('pressed'));
       addOperator(event.key);
+      document.getElementById(`${event.key}`).classList.add('pressed')
       break;
     case '=':
       doOperation();
@@ -97,13 +99,13 @@ function doOperation() {
     case '+':
       firstNumber = Number(firstNumber) + Number(secondNumber);
       break;
-    case '−':
+    case '-':
       firstNumber = Number(firstNumber) - Number(secondNumber);
       break;
-    case '×':
+    case '*':
       firstNumber = Number(firstNumber) * Number(secondNumber);
       break;
-    case '÷':
+    case '/':
       if (Number(firstNumber) / Number(secondNumber) == 'Infinity' || Number(firstNumber) / Number(secondNumber) == 'NaN') {
         firstNumber = 'Tu madre';
       } else {
